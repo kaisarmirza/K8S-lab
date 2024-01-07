@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: kube-router
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      k8s-app: kube-router
+  template:
+    metadata:
+      labels:
+        k8s-app: kube-router
+    spec:
+      containers:
+      - name: kube-router
+        image: cloudnativelabs/kube-router:v1.3.0 # Replace with the desired version
+        args:
+        - "--run-router=true"
+        - "--run-firewall=false" # Optionally disable firewall
+        - "--enable-cni=true"
+        - "--cni-bin-dir=/var/lib/cni/bin"
+        - "--cni-conf-dir=/etc/cni/net.d"
+        - "--kubeconfig=/var/lib/kube-router/kubeconfig" # Path to kubeconfig file
+        - "--enable-ipv4=true" # Enable IPv4 support
+        - "--enable-ipv6=false" # Enable IPv6 support if needed
+        - "--ip-masq=true" # Enable IP masquerade
+        - "--nodeport-address=:31000"
+        - "--metrics-bind-address=:10249" # Metrics server address
+        - "--bgp-address-families=ipv4-ucast" # Specify BGP address families
+        - "--cluster-as=64512" # Replace with your cluster's AS number
+        - "--node-as=64513" # Replace with your node's AS number
+        - "--peer-router-ips=VYOS_ROUTER_IP" # Replace with the VyOS router's IP
+        - "--peer-router-ips=ANOTHER_ROUTER_IP" # Add more peers if needed
+        - "--kube-api-server=KUBE_API_SERVER_URL" # Replace with your Kubernetes API server URL
+        - "--bgp-tolerance-timeout=90s" # BGP tolerance timeout
+        - "--bgp-hold-time=30s" # BGP hold time
+        - "--bgp-keepalive-time=10s" # BGP keepalive time
+        - "--disable-cni-wait=false"
+        - "--enable-external-ips=false" # Enable external IPs if needed
