@@ -1,0 +1,16 @@
+apiVersion: projectcalico.org/v3
+kind: BGPPeer
+metadata:
+  name: vyos-router
+spec:
+  peerIP: VYOS_ROUTER_IP # Replace with the VyOS router's IP address
+  asNumber: VYOS_AS_NUMBER # Replace with the AS number of the VyOS router
+  nodeSelector: all() # Selects all nodes for peering, can be adjusted based on node labels
+  password: BGP_PASSWORD # Optional, specify BGP password
+  keepaliveTime: 30s # Optional, adjust BGP keepalive time
+  holdTime: 90s # Optional, adjust BGP hold time
+  sourceAddress: NODE_IP_ADDRESS # Optional, specify source IP address for BGP peering
+  enableAddressFamilies: ["ipv4", "ipv6"] # Optional, enable specific address families
+  prefixAdvertisementMode: Always # Optional, specify how Calico advertises prefixes
+  peerSelector: has(node-role.kubernetes.io/worker) # Optional, select peers based on node labels
+  gatewayAddress: VYOS_GATEWAY_IP # Optional, specify the gateway IP address
