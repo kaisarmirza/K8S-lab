@@ -32,3 +32,6 @@ Apply this configuration using ***kubectl apply -f your-config-file.yaml***
 Customize these parameters based on your network topology, AS numbers, IP addresses, and other specific configurations. Replace placeholders like VYOS_ROUTER_IP, KUBE_API_SERVER_URL, and others with your actual details.
 
 Apply this configuration as a DaemonSet in the kube-system namespace using kubectl apply -f your-config-file.yaml. Adapt the settings to your infrastructure to ensure proper BGP peering between Kube-router and your routers.
+
+To see the configuration applied and verified. Follow the external link
+https://networkers.wikidot.com/k8s-lab
